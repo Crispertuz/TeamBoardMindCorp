@@ -2,7 +2,6 @@ import userStory from "../models/userStory.js";
 import role from "../models/role.js";
 import user from "../models/user.js";
 
-
 const saveUserStory = async (req, res) => {
   if (
     !req.body.name ||
@@ -24,10 +23,11 @@ const saveUserStory = async (req, res) => {
     userId: req.body.userId,
     name: req.body.name,
     userStoryStatus: "to-do",
-    details: req.body.details
+    details: req.body.details,
   });
-  if(req.body.description) userStorySchema.description = req.body.description;
-  if(req.body.registerDate) userStorySchema.description = req.body.registerDate;
+  if (req.body.description) userStorySchema.description = req.body.description;
+  if (req.body.registerDate)
+    userStorySchema.description = req.body.registerDate;
 
   const result = await userStorySchema.save();
   return !result

@@ -13,8 +13,6 @@ import { RegisterComponent } from './home/register/register.component';
 
 
 import { AuthGuard } from './guard/auth.guard';
-import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-password-confirm/forgotten-password-confirm.component';
-import { ForgottenPasswordComponent } from './recoverPassword/forgotten-password/forgotten-password.component';
 import { UserHistoryComponent } from './board/user-history/user-history.component';
 
 const routes: Routes = [
@@ -75,14 +73,6 @@ const routes: Routes = [
     path: 'updateRole/:_id',
     component: UpdateRoleComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'forgottenPassword/:_id',
-    component: ForgottenPasswordConfirmComponent,
-  },
-  {
-    path: 'forgottenPassword',
-    component: ForgottenPasswordComponent,
   },
 ];
 

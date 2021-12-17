@@ -12,21 +12,24 @@
               required
             />
           </mat-form-field>
-          <mat-form-field>
+          <!-- <mat-form-field>
             <input
               [(ngModel)]="registerData.userId"
               matInput
               placeholder="User"
               required
             />
+          </mat-form-field> -->
+
+          <mat-form-field appearance="fill">
+            <mat-label>User</mat-label>
+            <select matNativeControl required>
+              <option *ngFor="let item of userData" value="user">
+                {{ item.email }}
+              </option>
+            </select>
           </mat-form-field>
-          <!-- <div *ngFor="let item of userData">
-            <mat-form-field appearance="fill">
-              <select matNativeControl required>
-                <option value="user">{{ item.email }}</option>
-              </select>
-            </mat-form-field>
-          </div> -->
+
           <mat-form-field appearance="fill">
             <mat-label>Status</mat-label>
             <select
@@ -77,7 +80,7 @@
       </mat-card-content>
       <mat-card-actions>
         <button (click)="saveUserStory()" class="button" mat-raised-button>
-          --> Create
+          Create
         </button>
       </mat-card-actions>
     </mat-card>

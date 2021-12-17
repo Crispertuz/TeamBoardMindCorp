@@ -22,7 +22,6 @@ import { RoleService } from './services/role.service';
 import { BoardService } from './services/board.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthGuard } from './guard/auth.guard';
-import { ForgotPasswordService } from './services/forgot-password.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -40,8 +39,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ForgottenPasswordComponent } from './recoverPassword/forgotten-password/forgotten-password.component';
-import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-password-confirm/forgotten-password-confirm.component';
 import { UserHistoryComponent } from './board/user-history/user-history.component';
 
 @NgModule({
@@ -59,8 +56,6 @@ import { UserHistoryComponent } from './board/user-history/user-history.componen
     RegisterRoleComponent,
     ListRoleComponent,
     UpdateRoleComponent,
-    ForgottenPasswordComponent,
-    ForgottenPasswordConfirmComponent,
     UserHistoryComponent,
   ],
   imports: [
@@ -90,7 +85,6 @@ import { UserHistoryComponent } from './board/user-history/user-history.componen
     BoardService,
     TokenInterceptorService,
     AuthGuard,
-    ForgotPasswordService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
