@@ -3,8 +3,8 @@
 }
 
 a {
-  text-decoration: none;
-  color: white;
+  text-decoration:rgb(3, 59, 78);
+  color: rgb(17, 17, 17);
 }
 
 ul {
@@ -12,22 +12,25 @@ ul {
 }
 
 .bgHeader {
-  background-color: #383d38;
+
+  background-color: #aa8ad383;
+ 
 }
 
 mat-form-field {
-  margin: 5px 0px;
+  margin: 10px 0px;
   font-size: 15px;
   width: 300px;
-  padding: 6px;
+  padding: 7px;
 }
 
 .dropdown-item{
-  background-color: #383d38;
+  background-color: #15161534;
 }
 
 
 a:hover, a:active{
   color: lightgray;
 }
+
 

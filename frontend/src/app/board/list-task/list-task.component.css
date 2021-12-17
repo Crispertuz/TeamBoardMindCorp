@@ -17,30 +17,30 @@
   }
   
   .btnDone {
-    background-color: #3cb44b;
+    background-color: #3cb4b4;
     color: #ffffff;
   }
   
   .btnInProgress {
-    background-color: #f58231;
+    background-color: #c74997;
     color: #ffffff;
   }
   
   .btnToDo {
-    background-color: #e6194b;
+    background-color: #d84f10da;
     color: #ffffff;
   }
   
   .btnSelectDone {
-    color: #3cb44b;
+    color: #3cb4b4;
   }
   
   .btnSelectInProgress {
-    color: #f58231;
+    color:#c74997;
   }
   
   .btnSelectTodo {
-    color: #e6194b;
+    color: #d84f10da;
   }
   
   .mat-icon {
@@ -91,22 +91,22 @@
   
   .example-box {
     padding: 20px 10px;
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
+    border-bottom: solid 1px rgba(95, 30, 201, 0.61);
+    color: rgba(247, 247, 247, 0.87);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
     cursor: move;
-    background: white;
+    background: rgba(137, 20, 141, 0.171);
     font-size: 14px;
   }
   
   .cdk-drag-preview {
     box-sizing: border-box;
     border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.14),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
                 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   }
@@ -121,8 +121,4 @@
   
   .example-box:last-child {
     border: none;
-  }
-  
-  .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }

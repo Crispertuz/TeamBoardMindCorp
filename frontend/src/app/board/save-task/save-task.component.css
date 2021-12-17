@@ -1,5 +1,5 @@
 .bgComponent {
-  background-color: #a5abaf;
+  background-color: #a5abaf31;
   width: 100%;
   height: 100%;
   padding-bottom: 30%;
@@ -11,7 +11,7 @@
 
 .button {
   width: 100%;
-  background-color: #3d3838;
+  background-color: #3a1155;
   color: white;
 }
 

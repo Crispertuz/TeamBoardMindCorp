@@ -1,5 +1,5 @@
 .bgComponent {
-  background-color: #a5abaf;
+  background-color: #a5abaf04;
   width: 100%;
   height: 100%;
   padding-bottom: 30%;
@@ -26,8 +26,8 @@ th {
 }
 
 .bgShearch {
-  background-color: #a5abaf;
-  color: #ffffff;
+  background-color: #a5abaf00;
+  color: #000000;
 }
 
 .mat-icon {
