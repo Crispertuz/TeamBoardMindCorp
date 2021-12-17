@@ -1,0 +1,85 @@
+<div class="bgComponent">
+  <div class="form">
+    <mat-card class="card">
+      <mat-card-title>Create User Story</mat-card-title>
+      <mat-card-content>
+        <div class="container">
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.name"
+              matInput
+              placeholder="Story Name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.userId"
+              matInput
+              placeholder="User"
+              required
+            />
+          </mat-form-field>
+          <!-- <div *ngFor="let item of userData">
+            <mat-form-field appearance="fill">
+              <select matNativeControl required>
+                <option value="user">{{ item.email }}</option>
+              </select>
+            </mat-form-field>
+          </div> -->
+          <mat-form-field appearance="fill">
+            <mat-label>Status</mat-label>
+            <select
+              matNativeControl
+              required
+              [(ngModel)]="registerData.userStoryStatus"
+            >
+              <option value="active">Active</option>
+              <option value="resolved">Resolved</option>
+              <option value="verified">Verified QA</option>
+              <option value="ready">Ready for PO</option>
+              <option value="closed">Closed</option>
+            </select>
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.description"
+              matInput
+              placeholder="Description"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.week"
+              matInput
+              placeholder="Week"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.details"
+              matInput
+              placeholder="Details"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              [(ngModel)]="registerData.bugs"
+              matInput
+              placeholder="Register Bugs"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="saveUserStory()" class="button" mat-raised-button>
+          --> Create
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
