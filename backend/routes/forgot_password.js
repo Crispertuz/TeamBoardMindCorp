@@ -3,6 +3,6 @@ import express from 'express';
 const router = express.Router();
 
 router.post("/forgottenPassword", forgotPassword.forgottenPassword);
-router.put("/forgottenPasswordConfirm", forgotPassword.forgottenPasswordGet);
+router.put("/forgottenPasswordConfirm", forgotPassword.forgottenPasswordConfirm);
 
 export default router;

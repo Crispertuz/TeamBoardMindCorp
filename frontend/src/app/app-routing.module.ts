@@ -77,12 +77,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'forgottenPassword/:_id',
-    component: ForgottenPasswordConfirmComponent,
-  },
-  {
     path: 'forgottenPassword',
     component: ForgottenPasswordComponent,
+  },
+  {
+    path: 'forgottenPasswordConfirm/:forgotPasswordCode',
+    component: ForgottenPasswordConfirmComponent,
   },
 ];
 
@@ -90,4 +90,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
+
 export class AppRoutingModule {}

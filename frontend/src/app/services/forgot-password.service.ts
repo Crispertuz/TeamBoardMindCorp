@@ -16,8 +16,8 @@ export class ForgotPasswordService {
     return this._http.post<any>(this.env + 'forgotPassword/forgottenPassword', email);
   }
 
-  forgottenPasswordConfirm(passworData: any) {
-    return this._http.put<any>(this.env + 'forgotPassword/forgottenPasswordConfirm', passworData);
+  forgottenPasswordConfirm(passwordData: any) {
+    return this._http.put<any>(this.env + 'forgotPassword/forgottenPasswordConfirm', passwordData);
   }
 
 

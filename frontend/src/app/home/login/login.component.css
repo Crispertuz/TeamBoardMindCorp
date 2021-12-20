@@ -31,3 +31,10 @@
 mat-card-title {
   text-align: center;
 }
+.spacer{
+  display: block;
+  height: 20px;
+}
+#forgotPassword{
+  text-align: center;
+}
