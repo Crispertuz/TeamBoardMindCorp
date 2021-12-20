@@ -1,0 +1,406 @@
+<div class="container">
+    <div class="row">
+      <div class="example-container col">
+        <h2>Active</h2>
+
+        <div
+          cdkDropList
+          #activeList="cdkDropList"
+          [cdkDropListData]="storyActive"
+          [cdkDropListConnectedTo]="[verifiedqaList, readyforpoList, resolvedList]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let item of storyActive" cdkDrag>
+            <div class="accordion_display">
+              <div class="accordion_size">
+                <mat-accordion>
+                  <mat-expansion-panel hideToggle="false">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <span>{{ item.name }}</span>
+                        <span class="spacer"></span>
+                        <button
+                          class="btnResolved"
+                          *ngIf="item.userStoryStatus == 'resolved'"
+                          mat-raised-button
+                        >
+                          {{ item.userStoryStatus }}
+                        </button>
+                        <button
+                          class="btnReadyForPo"
+                          *ngIf="item.userStoryStatus == 'ready for PO'"
+                          mat-raised-button
+                        >
+                          {{ item.userStoryStatus }}
+                        </button>
+                        <button
+                          class="btnVerifiedQA"
+                          *ngIf="item.userStoryStatus == 'verified QA'"
+                          mat-raised-button
+                        >
+                          {{ item.userStoryStatus }}
+                          </button>
+                          <button
+                          class="btnActive"
+                          *ngIf="item.userStoryStatus == 'active'"
+                          mat-raised-button
+                        >
+                          {{ item.userStoryStatus }}
+                        </button>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-panel-description>
+                      {{ item.description }}
+                    </mat-panel-description>
+                    <mat-panel-description>
+                      <img
+                        class="card-img-top image_center"
+                        src="{{ item.imageUrl }}"
+                      />
+                    </mat-panel-description>
+                    <mat-action-row>
+                      <button
+                        class="btnSelectActive"
+                        mat-button
+                        (click)="updateStory(item, 'Active')"
+                      >
+                        Active
+                      </button>
+                      <button
+                        class="btnSelectVerifiedQA"
+                        mat-button
+                        (click)="updateStory(item, 'verified QA')"
+                      >
+                        Verified QA
+                      </button>
+                      <button
+                        class="btnSelectReadyForPo"
+                        mat-button
+                        (click)="updateStory(item, 'ready for PO')"
+                      >
+                        Ready for PO
+                      </button>
+                      <button
+                        class="btnSelectResolved"
+                        mat-button
+                        (click)="updateStory(item, 'resolved')"
+                      >
+                        Resolved
+                      </button>
+                      <span class="spacer"></span>
+                      <mat-icon color="primary" (click)="deleteStory(item)"
+                        >delete</mat-icon
+                      >
+                    </mat-action-row>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="example-container col">
+    <h2>Verified QA</h2>
+
+    <div
+      cdkDropList
+      #verifiedqaList="cdkDropList"
+      [cdkDropListData]="storyVerifiedQa"
+      [cdkDropListConnectedTo]="[activeList, readyforpoList, resolvedList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box" *ngFor="let item of storyVerifiedQa" cdkDrag>
+        <div class="accordion_display">
+          <div class="accordion_size">
+            <mat-accordion>
+              <mat-expansion-panel hideToggle="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span>{{ item.name }}</span>
+                    <span class="spacer"></span>
+                    <button
+                      class="btnResolved"
+                      *ngIf="item.userStoryStatus == 'resolved'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnReadyForPo"
+                      *ngIf="item.userStoryStatus == 'ready for PO'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnVerifiedQA"
+                      *ngIf="item.userStoryStatus == 'verified QA'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                      </button>
+                      <button
+                      class="btnActive"
+                      *ngIf="item.userStoryStatus == 'active'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                      </button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                  {{ item.description }}
+                </mat-panel-description>
+                <mat-panel-description>
+                  <img
+                    class="card-img-top image_center"
+                    src="{{ item.imageUrl }}"
+                  />
+                </mat-panel-description>
+                <mat-action-row>
+                    <button
+                    class="btnSelectActive"
+                    mat-button
+                    (click)="updateStory(item, 'Active')"
+                  >
+                    Active
+                  </button>
+                  <button
+                    class="btnSelectVerifiedQA"
+                    mat-button
+                    (click)="updateStory(item, 'verified QA')"
+                  >
+                    Verified QA
+                  </button>
+                  <button
+                    class="btnSelectReadyForPo"
+                    mat-button
+                    (click)="updateStory(item, 'ready for PO')"
+                  >
+                    Ready for PO
+                  </button>
+                  <button
+                    class="btnSelectResolved"
+                    mat-button
+                    (click)="updateStory(item, 'resolved')"
+                  >
+                    Resolved
+                  </button>
+                  <span class="spacer"></span>
+                  <mat-icon color="primary" (click)="deleteStory(item)"
+                    >delete</mat-icon
+                  >
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-container col">
+    <h2>Ready for PO</h2>
+
+    <div
+      cdkDropList
+      #readyforpoList="cdkDropList"
+      [cdkDropListData]="storyReadyForPo"
+      [cdkDropListConnectedTo]="[activeList, verifiedqaList, resolvedList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box" *ngFor="let item of storyReadyForPo" cdkDrag>
+        <div class="accordion_display">
+          <div class="accordion_size">
+            <mat-accordion>
+              <mat-expansion-panel hideToggle="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span>{{ item.name }}</span>
+                    <span class="spacer"></span>
+                    <button
+                      class="btnResolved"
+                      *ngIf="item.userStoryStatus == 'resolved'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnReadyForPo"
+                      *ngIf="item.userStoryStatus == 'ready for PO'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnVerifiedQA"
+                      *ngIf="item.userStoryStatus == 'verified QA'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                      </button>
+                      <button
+                      class="btnActive"
+                      *ngIf="item.userStoryStatus == 'active'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                      </button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                  {{ item.description }}
+                </mat-panel-description>
+                <mat-panel-description>
+                  <img
+                    class="card-img-top image_center"
+                    src="{{ item.imageUrl }}"
+                  />
+                </mat-panel-description>
+                <mat-action-row>
+                    <button
+                    class="btnSelectActive"
+                    mat-button
+                    (click)="updateStory(item, 'Active')"
+                  >
+                    Active
+                  </button>
+                  <button
+                    class="btnSelectVerifiedQA"
+                    mat-button
+                    (click)="updateStory(item, 'verified QA')"
+                  >
+                    Verified QA
+                  </button>
+                  <button
+                    class="btnSelectReadyForPo"
+                    mat-button
+                    (click)="updateStory(item, 'ready for PO')"
+                  >
+                    Ready for PO
+                  </button>
+                  <button
+                    class="btnSelectResolved"
+                    mat-button
+                    (click)="updateStory(item, 'resolved')"
+                  >
+                    Resolved
+                  </button>
+                  <span class="spacer"></span>
+                  <mat-icon color="primary" (click)="deleteStory(item)"
+                    >delete</mat-icon
+                  >
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-container col">
+    <h2>Resolved</h2>
+
+    <div
+      cdkDropList
+      #resolvedList="cdkDropList"
+      [cdkDropListData]="storyResolved"
+      [cdkDropListConnectedTo]="[activeList, verifiedqaList, readyforpoList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box" *ngFor="let item of storyReadyForPo" cdkDrag>
+        <div class="accordion_display">
+          <div class="accordion_size">
+            <mat-accordion>
+              <mat-expansion-panel hideToggle="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span>{{ item.name }}</span>
+                    <span class="spacer"></span>
+                    <button
+                      class="btnResolved"
+                      *ngIf="item.userStoryStatus == 'resolved'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnReadyForPo"
+                      *ngIf="item.userStoryStatus == 'ready for PO'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                    <button
+                      class="btnVerifiedQA"
+                      *ngIf="item.userStoryStatus == 'verified QA'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                    </button>
+                      <button
+                      class="btnActive"
+                      *ngIf="item.userStoryStatus == 'active'"
+                      mat-raised-button
+                    >
+                      {{ item.userStoryStatus }}
+                      </button>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                  {{ item.description }}
+                </mat-panel-description>
+                <mat-panel-description>
+                  <img
+                    class="card-img-top image_center"
+                    src="{{ item.imageUrl }}"
+                  />
+                </mat-panel-description>
+                <mat-action-row>
+                    <button
+                    class="btnSelectActive"
+                    mat-button
+                    (click)="updateStory(item, 'Active')"
+                  >
+                    Active
+                  </button>
+                  <button
+                    class="btnSelectVerifiedQA"
+                    mat-button
+                    (click)="updateStory(item, 'verified QA')"
+                  >
+                    Verified QA
+                  </button>
+                  <button
+                    class="btnSelectReadyForPo"
+                    mat-button
+                    (click)="updateStory(item, 'ready for PO')"
+                  >
+                    Ready for PO
+                  </button>
+                  <button
+                    class="btnSelectResolved"
+                    mat-button
+                    (click)="updateStory(item, 'resolved')"
+                  >
+                    Resolved
+                  </button>
+                  <span class="spacer"></span>
+                  <mat-icon color="primary" (click)="deleteStory(item)"
+                    >delete</mat-icon
+                  >
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -5,7 +5,7 @@
 
 .button {
   width: 100%;
-  background-color: #383d38;
+  background-color: #3a1155;
   color: white;
 }
 
@@ -29,5 +29,12 @@
 }
 
 mat-card-title {
+  text-align: center;
+}
+.spacer{
+  display: block;
+  height: 20px;
+}
+#forgotPassword{
   text-align: center;
 }

@@ -13,7 +13,10 @@ import { RegisterComponent } from './home/register/register.component';
 
 
 import { AuthGuard } from './guard/auth.guard';
+import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-password-confirm/forgotten-password-confirm.component';
+import { ForgottenPasswordComponent } from './recoverPassword/forgotten-password/forgotten-password.component';
 import { UserHistoryComponent } from './board/user-history/user-history.component';
+import { ListUserStoryComponent } from './board/list-user-story/list-user-story.component';
 
 const routes: Routes = [
   {
@@ -34,6 +37,11 @@ const routes: Routes = [
   {
     path: 'saveUserStory',
     component: UserHistoryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'listUserStory',
+    component: ListUserStoryComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -74,10 +82,19 @@ const routes: Routes = [
     component: UpdateRoleComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'forgottenPassword',
+    component: ForgottenPasswordComponent,
+  },
+  {
+    path: 'forgottenPasswordConfirm/:forgotPasswordCode',
+    component: ForgottenPasswordConfirmComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
+
 export class AppRoutingModule {}

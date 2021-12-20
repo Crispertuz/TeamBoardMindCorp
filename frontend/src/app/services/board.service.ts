@@ -35,6 +35,14 @@ export class BoardService {
   saveUserStory(board: any) {
     return this._http.post<any>(this.env + 'board/saveUserStory', board);
   }
-
+  listUserStory() {
+    return this._http.get<any>(this.env + 'board/listUserStory');
+  }
+  updateStory(board: any) {
+    return this._http.put<any>(this.env + 'board/updateUserStory', board);
+  }
+  deleteStory(board: any) {
+    return this._http.delete<any>(this.env + 'board/deleteUserStory/' + board._id);
+  }
 
 }
