@@ -5,7 +5,8 @@ const userStorySchema = new mongoose.Schema({
   name: String,
   userStoryStatus: String,
   description: {type: String, default: undefined},
-  registerDate: { type: Date, default: Date.now },
+  startDate: { type: Date, default: Date.now },
+  dueDate: { type: Date, default: Date.now },
   details: String,
   bugs: {type: String, default: " "}
 });

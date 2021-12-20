@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardService } from '../../services/board.service';
+import {FormGroup, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   MatSnackBar,
@@ -14,6 +15,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user-history.component.css'],
 })
 export class UserHistoryComponent implements OnInit {
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  opcionSeleccionada:string = '';
   userData: any;
   registerData: any;
   selectedFile: any;
@@ -39,10 +45,7 @@ export class UserHistoryComponent implements OnInit {
         for (const key in v.userList) {
           let item: any = v.userList[key];
           this.userData.push(item);
-          console.log(item);
         }
-
-        console.log(this.userData);
       },
       error: (e) => {
         this.message = e.error.message;
@@ -55,16 +58,18 @@ export class UserHistoryComponent implements OnInit {
   saveUserStory() {
     if (
       !this.registerData.name ||
-      !this.registerData.userId ||
       !this.registerData.userStoryStatus ||
       !this.registerData.details
     ) {
       this.message = 'Failed process: Incomplete Data';
       this.openSnackBarError();
     } else {
+      this.pickeDate();
+      this.registerData.email = this.opcionSeleccionada;
+      console.log(this.registerData);
       this._boardService.saveUserStory(this.registerData).subscribe({
         next: (v) => {
-          this._router.navigate(['/listUserStory']);
+          // this._router.navigate(['/listUserStory']);
           this.message = 'Story created';
           this.openSnackBarSuccesfull();
         },
@@ -75,6 +80,12 @@ export class UserHistoryComponent implements OnInit {
       });
     }
   }
+
+  pickeDate(){
+    this.registerData.startDate = this.range.value.start;
+    this.registerData.dueDate = this.range.value.end;
+  }
+
 
   openSnackBarSuccesfull() {
     this._snackBar.open(this.message, 'X', {
