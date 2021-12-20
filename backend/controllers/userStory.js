@@ -2,7 +2,6 @@ import userStory from "../models/userStory.js";
 import role from "../models/role.js";
 import user from "../models/user.js";
 
-
 const saveUserStory = async (req, res) => {
   if (
     !req.body.name ||
@@ -13,23 +12,18 @@ const saveUserStory = async (req, res) => {
   
     return res.status(400).send({ message: "Incomplete data" });
 
-  try {
-    const userExists = await user.findOne({ email: req.body.email });
-    if (!userExists)
-      return res.status(400).send({ message: "User not exists" });
-  } catch (e) {
-    console.log("error " + e);
-  }
+  const userExists = await user.findOne({ email: req.body.email });
+  if (!userExists) return res.status(400).send({ message: "User not exists" });
 
   const userStorySchema = new userStory({
-    userId: req.body.userId,
+    userEmail: userExists.email,
     name: req.body.name,
     userStoryStatus: req.body.userStoryStatus,
-    details: req.body.details
+    details: req.body.details,
   });
-  if(req.body.description) userStorySchema.description = req.body.description;
-  if(req.body.startDate) userStorySchema.registerDate = req.body.startDate;
-  if(req.body.dueDate) userStorySchema.dueDate = req.body.dueDate;
+  if (req.body.description) userStorySchema.description = req.body.description;
+  if (req.body.startDate) userStorySchema.registerDate = req.body.startDate;
+  if (req.body.dueDate) userStorySchema.dueDate = req.body.dueDate;
 
   const result = await userStorySchema.save();
   return !result
@@ -38,7 +32,8 @@ const saveUserStory = async (req, res) => {
 };
 
 const listUserStory = async (req, res) => {
-  const userStoryList = await userStory.find({ userId: req.user._id });
+  const findUser = await user.findById({ _id: req.user._id });
+  const userStoryList = await userStory.find({ userEmail: findUser.email });
   return userStoryList.length === 0
     ? res.status(400).send({ message: "You have no assigned user story" })
     : res.status(200).send({ userStoryList });

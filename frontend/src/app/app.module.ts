@@ -45,6 +45,10 @@ import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-p
 import { UserHistoryComponent } from './board/user-history/user-history.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+<<<<<<< HEAD
+=======
+import { ListUserStoryComponent } from './board/list-user-story/list-user-story.component';
+>>>>>>> Oscar
 
 @NgModule({
   declarations: [
@@ -64,6 +68,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     ForgottenPasswordComponent,
     ForgottenPasswordConfirmComponent,
     UserHistoryComponent,
+    ListUserStoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -25,6 +25,14 @@
         <a
           class="nav-link"
           *ngIf="_userService.loggedIn()"
+          routerLink="listUserStory"
+          >List User Story</a
+        >
+      </li>
+      <li class="nav-item active">
+        <a
+          class="nav-link"
+          *ngIf="_userService.loggedIn()"
           routerLink="listTask"
           >List task</a
         >
