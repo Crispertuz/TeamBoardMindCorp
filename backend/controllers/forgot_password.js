@@ -27,7 +27,7 @@ const forgottenPassword = async (req, res) => {
   if (!result) {
     res.status(400).send({ message: "Error recovering password" });
   } else {
-    let requestPasswordLink = "http://localhost:4200/api/user/forgotPassword";
+    let requestPasswordLink = "http://localhost:4200/forgottenPasswordConfirm";
 
     const info = await transporter.sendMail({
       from: `"Forgot password " <mindcorp2022@gmail.com>`,
@@ -48,11 +48,11 @@ const forgottenPassword = async (req, res) => {
   }
 };
 
-const forgottenPasswordGet = async (req, res) => {
+const forgottenPasswordConfirm = async (req, res) => {
   if (!req.body.password || !req.body.passwordConfirm)
     return res.status(400).send({ message: "Incomplete data" });
 
-  const findPasswordRecover = await forgotPassword.findOne({ forgotPasswordCode: req.body.codeRequest});
+  const findPasswordRecover = await forgotPassword.findOne({ forgotPasswordCode: req.body.forgotPasswordCode});
   
     if(findPasswordRecover.codeUsed === 1) return res.status(400).send({ message: "The code already used. Send new request of recover password" });
 
@@ -92,4 +92,4 @@ const forgottenPasswordGet = async (req, res) => {
 
 
 
-export default { forgottenPassword, forgottenPasswordGet};
+export default { forgottenPassword, forgottenPasswordConfirm};

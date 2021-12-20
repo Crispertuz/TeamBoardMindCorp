@@ -31,6 +31,7 @@ export class ForgottenPasswordConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this._Arouter.params); 
   }
 
   getRecoverPassword(){
@@ -39,7 +40,8 @@ export class ForgottenPasswordConfirmComponent implements OnInit {
       this.openSnackBarError();
     } else {
       this.getParams();
-      this._forgotPasswordService.forgottenPassword(this.passwordData).subscribe({
+      console.log(this.passwordData);
+      this._forgotPasswordService.forgottenPasswordConfirm(this.passwordData).subscribe({
         next: (v) => {
           this._router.navigate(['/login']);
           this.openSnackBarSuccesfull();
@@ -49,15 +51,15 @@ export class ForgottenPasswordConfirmComponent implements OnInit {
           this.message = e.error.message;
           this.openSnackBarError();
         },
-        complete: () => console.info('complete'),
+        complete: () => console.info('Password recovered correctly'),
       });
     }
   }
 
   getParams(){
     this._Arouter.params.subscribe((params) => {
-      this.passwordData.codeRequest = params['_id'];
-  })
+      this.passwordData.forgotPasswordCode = params['forgotPasswordCode'];
+    });
 }
 
   openSnackBarSuccesfull() {

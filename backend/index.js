@@ -8,6 +8,7 @@ import board from "./routes/board.js";
 import forgotPassword from "./routes/forgot_password.js";
 import userStory from "./routes/userStory.js";
 dotenv.config();
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 const app = express();
 
