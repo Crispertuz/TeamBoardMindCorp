@@ -6,14 +6,15 @@ import user from "../models/user.js";
 const saveUserStory = async (req, res) => {
   if (
     !req.body.name ||
-    !req.body.userId ||
+    !req.body.email ||
     !req.body.userStoryStatus ||
     !req.body.details
   )
+  
     return res.status(400).send({ message: "Incomplete data" });
 
   try {
-    const userExists = await user.findById({ _id: req.body.userId });
+    const userExists = await user.findOne({ email: req.body.email });
     if (!userExists)
       return res.status(400).send({ message: "User not exists" });
   } catch (e) {
@@ -23,11 +24,12 @@ const saveUserStory = async (req, res) => {
   const userStorySchema = new userStory({
     userId: req.body.userId,
     name: req.body.name,
-    userStoryStatus: "to-do",
+    userStoryStatus: req.body.userStoryStatus,
     details: req.body.details
   });
   if(req.body.description) userStorySchema.description = req.body.description;
-  if(req.body.registerDate) userStorySchema.description = req.body.registerDate;
+  if(req.body.startDate) userStorySchema.registerDate = req.body.startDate;
+  if(req.body.dueDate) userStorySchema.dueDate = req.body.dueDate;
 
   const result = await userStorySchema.save();
   return !result

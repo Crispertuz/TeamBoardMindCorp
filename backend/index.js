@@ -17,7 +17,7 @@ app.use(cors());
 app.use("/api/role", role);
 app.use("/api/user", user);
 app.use("/api/board", board);
-app.use("/api/userStory", userStory);
+app.use("/api/board", userStory);
 app.use("/api/forgotPassword", forgotPassword);
 app.use("/uploads", express.static("uploads"));
 

@@ -43,6 +43,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ForgottenPasswordComponent } from './recoverPassword/forgotten-password/forgotten-password.component';
 import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-password-confirm/forgotten-password-confirm.component';
 import { UserHistoryComponent } from './board/user-history/user-history.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,8 @@ import { UserHistoryComponent } from './board/user-history/user-history.componen
     MatPaginatorModule,
     MatSortModule,
     DragDropModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     UserService,
@@ -91,6 +95,7 @@ import { UserHistoryComponent } from './board/user-history/user-history.componen
     TokenInterceptorService,
     AuthGuard,
     ForgotPasswordService,
+    MatDatepickerModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
