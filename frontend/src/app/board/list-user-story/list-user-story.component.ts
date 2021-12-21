@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardService } from '../../services/board.service';
+import { FormGroup, FormControl } from '@angular/forms';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -10,6 +11,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-list-user-story',
@@ -17,6 +19,13 @@ import {
   styleUrls: ['./list-user-story.component.css'],
 })
 export class ListUserStoryComponent implements OnInit {
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  userStoryStatus: string = '';
+  registerData: any;
+  userData: any;
   storyData: any;
   storyActive: any;
   storyResolved: any;
@@ -29,16 +38,20 @@ export class ListUserStoryComponent implements OnInit {
 
   constructor(
     private _boardService: BoardService,
+    private _userService: UserService,
     private _snackBar: MatSnackBar
   ) {
-    this.storyData = {};
+    this.storyData = [];
     this.storyActive = [];
     this.storyResolved = [];
     this.storyVerifiedQa = [];
     this.storyReadyForPo = [];
+    this.userData = [];
+    this.registerData = {};
   }
 
   ngOnInit(): void {
+    this.listUser();
     this._boardService.listUserStory().subscribe({
       next: (v) => {
         this.storyData = v.userStoryList;
@@ -55,12 +68,26 @@ export class ListUserStoryComponent implements OnInit {
           if (tk.userStoryStatus === 'resolved') {
             this.storyResolved.push(tk);
           }
-          console.log(this.storyData);
         });
       },
       error: (e) => {
         this.message = e.error.message;
         this.openSnackBarError();
+      },
+      complete: () => console.log(this.storyActive),
+    });
+  }
+
+  listUser() {
+    this._userService.listUser('').subscribe({
+      next: (v) => {
+        for (const key in v.userList) {
+          let item: any = v.userList[key];
+          this.userData.push(item);
+        }
+      },
+      error: (e) => {
+        this.message = e.error.message;
       },
       complete: () => console.info('complete'),
     });
@@ -107,7 +134,8 @@ export class ListUserStoryComponent implements OnInit {
     });
   }
 
-  updateStory(story: any, status: string) {
+  updateStory(story: any, status: any) {
+    status = this.registerData.userStoryStatus.value;
     let tempStatus = story.userStoryStatus;
     story.userStoryStatus = status;
     this._boardService.updateStory(story).subscribe({

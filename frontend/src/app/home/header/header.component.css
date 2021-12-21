@@ -3,7 +3,7 @@
 }
 
 a {
-  text-decoration:rgb(3, 59, 78);
+  text-decoration: rgb(3, 59, 78);
   color: rgb(17, 17, 17);
 }
 
@@ -12,25 +12,37 @@ ul {
 }
 
 .bgHeader {
-
-  background-color: #aa8ad383;
- 
+  background-color: #aa8ad30c;
 }
 
 mat-form-field {
-  margin: 10px 0px;
-  font-size: 15px;
+  margin: 0px 0px;
+  font-size: 25px;
   width: 300px;
   padding: 7px;
 }
 
-.dropdown-item{
-  background-color: #15161534;
+.dropdown-item {
+  background-color: #22202234;
 }
 
-
-a:hover, a:active{
+a:hover,
+a:active {
   color: lightgray;
 }
 
+#logo {
+  height: fit-content;
 
+  transform: scale(2);
+
+  -webkit-transform: scale(2);
+
+  -moz-transform: scale(2);
+
+  -ms-transform: scale(2);
+
+  -o-transform: scale(2);
+
+  margin-left: 40px;
+}

@@ -46,6 +46,7 @@ import { UserHistoryComponent } from './board/user-history/user-history.componen
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { ListUserStoryComponent } from './board/list-user-story/list-user-story.component';
+import { LandingComponent } from './home/landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { ListUserStoryComponent } from './board/list-user-story/list-user-story.
     ForgottenPasswordConfirmComponent,
     UserHistoryComponent,
     ListUserStoryComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,

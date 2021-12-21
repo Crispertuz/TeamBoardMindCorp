@@ -16,10 +16,10 @@
 }
 
 .form {
-  display: flex;
+  display: right;
   justify-content: center;
   align-items: center;
-  padding: 100px 16px 0px;
+  padding: 0px 16px 0px;
 }
 
 .bgComponent {
@@ -37,4 +37,8 @@ mat-card-title {
 }
 #forgotPassword{
   text-align: center;
+}
+
+.logo{
+  display: block;
 }

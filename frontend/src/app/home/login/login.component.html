@@ -1,5 +1,6 @@
 <div class="bgComponent">
-    <div class="form">
+  <div class="form row">
+    <div class="col">
       <mat-card class="card">
         <mat-card-title>Login</mat-card-title>
         <mat-card-content>
@@ -25,11 +26,19 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button (click)="login()" class="button" mat-raised-button>Go!!</button>
+          <button (click)="login()" class="button" mat-raised-button>
+            Go!!
+          </button>
           <span class="spacer"></span>
-          <p id="forgotPassword"><a href="/forgottenPassword">Forgot password?</a></p>
+          <p id="forgotPassword">
+            <a href="/forgottenPassword">Forgot password?</a>
+          </p>
         </mat-card-actions>
       </mat-card>
     </div>
+
+    <div class="col">
+      <img src="../../../assets/Mi proyecto (1).png" />
+    </div>
   </div>
-  
+</div>

@@ -1,108 +1,102 @@
 <div class="container">
-    <div class="row">
-      <div class="example-container col">
-        <h2>Active</h2>
+  <div class="row">
+    <div class="example-container col">
+      <h2>Active</h2>
 
-        <div
-          cdkDropList
-          #activeList="cdkDropList"
-          [cdkDropListData]="storyActive"
-          [cdkDropListConnectedTo]="[verifiedqaList, readyforpoList, resolvedList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
-          <div class="example-box" *ngFor="let item of storyActive" cdkDrag>
-            <div class="accordion_display">
-              <div class="accordion_size">
-                <mat-accordion>
-                  <mat-expansion-panel hideToggle="false">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        <span>{{ item.name }}</span>
-                        <span class="spacer"></span>
-                        <button
-                          class="btnResolved"
-                          *ngIf="item.userStoryStatus == 'resolved'"
-                          mat-raised-button
-                        >
-                          {{ item.userStoryStatus }}
-                        </button>
-                        <button
-                          class="btnReadyForPo"
-                          *ngIf="item.userStoryStatus == 'ready for PO'"
-                          mat-raised-button
-                        >
-                          {{ item.userStoryStatus }}
-                        </button>
-                        <button
-                          class="btnVerifiedQA"
-                          *ngIf="item.userStoryStatus == 'verified QA'"
-                          mat-raised-button
-                        >
-                          {{ item.userStoryStatus }}
-                          </button>
-                          <button
-                          class="btnActive"
-                          *ngIf="item.userStoryStatus == 'active'"
-                          mat-raised-button
-                        >
-                          {{ item.userStoryStatus }}
-                        </button>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-panel-description>
-                      {{ item.description }}
-                    </mat-panel-description>
-                    <mat-panel-description>
-                      <img
-                        class="card-img-top image_center"
-                        src="{{ item.imageUrl }}"
-                      />
-                    </mat-panel-description>
-                    <mat-action-row>
-                      <button
-                        class="btnSelectActive"
-                        mat-button
-                        (click)="updateStory(item, 'Active')"
-                      >
-                        Active
-                      </button>
-                      <button
-                        class="btnSelectVerifiedQA"
-                        mat-button
-                        (click)="updateStory(item, 'verified QA')"
-                      >
-                        Verified QA
-                      </button>
-                      <button
-                        class="btnSelectReadyForPo"
-                        mat-button
-                        (click)="updateStory(item, 'ready for PO')"
-                      >
-                        Ready for PO
-                      </button>
-                      <button
-                        class="btnSelectResolved"
-                        mat-button
-                        (click)="updateStory(item, 'resolved')"
-                      >
-                        Resolved
-                      </button>
-                      <span class="spacer"></span>
-                      <mat-icon color="primary" (click)="deleteStory(item)"
-                        >delete</mat-icon
-                      >
-                    </mat-action-row>
-                  </mat-expansion-panel>
-                </mat-accordion>
+      <div
+        cdkDropList
+        #activeList="cdkDropList"
+        [cdkDropListData]="storyActive"
+        [cdkDropListConnectedTo]="[
+          verifiedqaList,
+          readyforpoList,
+          resolvedList
+        ]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="form" *ngFor="let data of storyActive">
+          <mat-card class="card">
+            <mat-card-title>{{ data.name }}</mat-card-title>
+            <mat-card-content>
+              <div class="container2">
+                <mat-form-field appearance="fill">
+                  <mat-label>User</mat-label>
+                  <select matNativeControl required disabled>
+                    <option
+                      *ngFor="let item of userData"
+                      value="{{ item.email }}"
+                    >
+                      <b>
+                        {{ item.email }}
+                      </b>
+                    </option>
+                  </select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Status</mat-label>
+                  <select
+                    matNativeControl
+                    required
+                    [(ngModel)]="userStoryStatus"
+                  >
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="verified QA">Verified QA</option>
+                    <option value="ready for PO">Ready for PO</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Description"
+                    required
+                    disabled
+                  />{{ data.description }}
+                </mat-form-field>
+                <!-- <mat-form-field appearance="fill">
+                     <mat-label>Enter a date range</mat-label>
+                     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                         <input matStartDate formControlName="start" placeholder={{data.startDate}}>
+                         <input matEndDate formControlName="end" placeholder="End date">
+                     </mat-date-range-input>
+                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                     <mat-date-range-picker #picker></mat-date-range-picker>
+                     </mat-form-field> 
+                     <mat-form-field>
+                     <input
+                         matInput
+                         placeholder="Details"
+                         required
+                         disabled
+                     />{{data.details}}
+                     </mat-form-field>-->
+                <mat-form-field>
+                  <input matInput placeholder="Register Bugs" required />{{
+                    data.bugs
+                  }}
+                </mat-form-field>
+                <mat-card-actions>
+                  <button
+                    (click)="
+                      updateStory(data.bugs, registerData.userStoryStatus)
+                    "
+                    class="button"
+                    mat-raised-button
+                  >
+                    Update
+                  </button>
+                </mat-card-actions>
               </div>
-            </div>
-          </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
     </div>
-</div>
-<div class="example-container col">
+  </div>
+  <div class="example-container col">
     <h2>Verified QA</h2>
 
     <div
@@ -142,14 +136,14 @@
                       mat-raised-button
                     >
                       {{ item.userStoryStatus }}
-                      </button>
-                      <button
+                    </button>
+                    <button
                       class="btnActive"
                       *ngIf="item.userStoryStatus == 'active'"
                       mat-raised-button
                     >
                       {{ item.userStoryStatus }}
-                      </button>
+                    </button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-panel-description>
@@ -162,7 +156,7 @@
                   />
                 </mat-panel-description>
                 <mat-action-row>
-                    <button
+                  <button
                     class="btnSelectActive"
                     mat-button
                     (click)="updateStory(item, 'Active')"
@@ -243,14 +237,14 @@
                       mat-raised-button
                     >
                       {{ item.userStoryStatus }}
-                      </button>
-                      <button
+                    </button>
+                    <button
                       class="btnActive"
                       *ngIf="item.userStoryStatus == 'active'"
                       mat-raised-button
                     >
                       {{ item.userStoryStatus }}
-                      </button>
+                    </button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-panel-description>
@@ -263,7 +257,7 @@
                   />
                 </mat-panel-description>
                 <mat-action-row>
-                    <button
+                  <button
                     class="btnSelectActive"
                     mat-button
                     (click)="updateStory(item, 'Active')"
@@ -345,13 +339,13 @@
                     >
                       {{ item.userStoryStatus }}
                     </button>
-                      <button
+                    <button
                       class="btnActive"
                       *ngIf="item.userStoryStatus == 'active'"
                       mat-raised-button
                     >
                       {{ item.userStoryStatus }}
-                      </button>
+                    </button>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-panel-description>
@@ -364,7 +358,7 @@
                   />
                 </mat-panel-description>
                 <mat-action-row>
-                    <button
+                  <button
                     class="btnSelectActive"
                     mat-button
                     (click)="updateStory(item, 'Active')"
@@ -404,3 +398,4 @@
       </div>
     </div>
   </div>
+</div>
