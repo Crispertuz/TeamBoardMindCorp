@@ -61,6 +61,7 @@ export class ListUserComponent {
           let index = this.userData.indexOf(user);
           if (index > -1) {
             this.userData.splice(index, 1);
+            this.dataSource = new MatTableDataSource(this.userData);
             this.message = 'User eliminated';
             this.openSnackBarSuccesfull();
           }

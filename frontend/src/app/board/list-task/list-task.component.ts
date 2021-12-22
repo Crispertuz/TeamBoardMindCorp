@@ -11,6 +11,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-list-task',
   templateUrl: './list-task.component.html',
@@ -142,20 +143,24 @@ export class ListTaskComponent implements OnInit {
   }
 
   deleteTask(task: any) {
-    this._boardService.deleteTask(task).subscribe({
-      next: (v) => {
-        let index = this.taskData.indexOf(task);
-        if (index > -1) {
-          this.taskData.splice(index, 1);
-          this.message = v.message;
-          this.openSnackBarSuccesfull();
-        }
-      },
-      error: (e) => {
-        this.message = e.error.message;
-        this.openSnackBarError();
-      },
-    });
+    let condition = confirm('Desea eliminar realmente la tarea?');
+    if (condition) {
+      this._boardService.deleteTask(task).subscribe({
+        next: (v) => {
+          let index = this.taskData.indexOf(task);
+          if (index > -1) {
+            this.taskData.splice(index, 1);
+            this.message = v.message;
+            this.openSnackBarSuccesfull();
+            this.resetList();
+          }
+        },
+        error: (e) => {
+          this.message = e.error.message;
+          this.openSnackBarError();
+        },
+      });
+    }
   }
 
   openSnackBarSuccesfull() {

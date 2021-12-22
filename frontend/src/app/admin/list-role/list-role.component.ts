@@ -51,7 +51,7 @@ export class ListRoleComponent implements OnInit {
   }
 
   deleteRole(role: any) {
-    let condition = confirm('Desea eliminar realmente la tarea?');
+    let condition = confirm('Desea eliminar realmente el rol?');
 
     if (condition) {
       this._roleService.deleteRole(role).subscribe({

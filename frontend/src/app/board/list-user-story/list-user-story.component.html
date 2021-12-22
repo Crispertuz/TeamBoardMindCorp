@@ -1,25 +1,91 @@
-<div class="container">
+<div >
   <div class="row">
     <div class="example-container col">
       <h2>Active</h2>
 
-      <div
-        cdkDropList
-        #activeList="cdkDropList"
-        [cdkDropListData]="storyActive"
-        [cdkDropListConnectedTo]="[
-          verifiedqaList,
-          readyforpoList,
-          resolvedList
-        ]"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)"
-      >
-        <div class="form" *ngFor="let data of storyActive">
+      <div>
+        <div class="form" *ngFor="let data of storyActive; index as i">
           <mat-card class="card">
-            <mat-card-title>{{ data.name }}</mat-card-title>
+            <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
+            <mat-card-title >{{ data.name }}</mat-card-title>
             <mat-card-content>
-              <div class="container2">
+              <div class="container" [ngClass]="{'display-none':!data.acordion}">
+                <mat-card-actions>
+                  <mat-icon color="primary" (click)="deleteStory(data) "
+                      >delete</mat-icon
+                    >
+                </mat-card-actions>
+                <mat-form-field appearance="fill">
+                  <mat-label>Status</mat-label>
+                  <select
+                    matNativeControl
+                    required
+                    [(ngModel)]="userStoryStatus[i]"
+                  >
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="verified QA">Verified QA</option>
+                    <option value="ready for PO">Ready for PO</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Description"
+                    required
+                    disabled
+                  />{{ data.description }}
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Description"
+                    required
+                    disabled
+                  />{{ data.userEmail }}
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]"/>{{
+                    data.bugs
+                  }}
+                </mat-form-field>
+                <mat-card-actions>
+                  <button
+                    (click)="
+                      updateStory(data, i, 'active')
+                    "
+                    class="button"
+                    mat-raised-button
+                  >
+                    Update
+                  </button>
+                </mat-card-actions>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="example-container col">
+    <h2>Verified QA</h2>
+
+    <div>
+      <div class="form" *ngFor="let data of storyVerifiedQa;index as i">
+          <mat-card class="card">
+            <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
+            <mat-card-title >{{ data.name }}</mat-card-title>
+            <mat-card-content>
+              <div class="container" [ngClass]="{'display-none':!data.acordion}">
+                <mat-card-actions>
+                  <mat-icon color="primary" (click)="deleteStory(data) "
+                      >delete</mat-icon
+                    >
+                </mat-card-actions>
                 <mat-form-field appearance="fill">
                   <mat-label>User</mat-label>
                   <select matNativeControl required disabled>
@@ -39,7 +105,7 @@
                   <select
                     matNativeControl
                     required
-                    [(ngModel)]="userStoryStatus"
+                    [(ngModel)]="userStoryStatus[i]"
                   >
                     <option value="active">Active</option>
                     <option value="resolved">Resolved</option>
@@ -56,32 +122,16 @@
                     disabled
                   />{{ data.description }}
                 </mat-form-field>
-                <!-- <mat-form-field appearance="fill">
-                     <mat-label>Enter a date range</mat-label>
-                     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                         <input matStartDate formControlName="start" placeholder={{data.startDate}}>
-                         <input matEndDate formControlName="end" placeholder="End date">
-                     </mat-date-range-input>
-                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                     <mat-date-range-picker #picker></mat-date-range-picker>
-                     </mat-form-field> 
-                     <mat-form-field>
-                     <input
-                         matInput
-                         placeholder="Details"
-                         required
-                         disabled
-                     />{{data.details}}
-                     </mat-form-field>-->
+                
                 <mat-form-field>
-                  <input matInput placeholder="Register Bugs" required />{{
+                  <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]">{{
                     data.bugs
-                  }}
+                  }}</textarea>
                 </mat-form-field>
                 <mat-card-actions>
                   <button
                     (click)="
-                      updateStory(data.bugs, registerData.userStoryStatus)
+                      updateStory(data, i, 'verified QA')
                     "
                     class="button"
                     mat-raised-button
@@ -93,309 +143,155 @@
             </mat-card-content>
           </mat-card>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="example-container col">
-    <h2>Verified QA</h2>
-
-    <div
-      cdkDropList
-      #verifiedqaList="cdkDropList"
-      [cdkDropListData]="storyVerifiedQa"
-      [cdkDropListConnectedTo]="[activeList, readyforpoList, resolvedList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of storyVerifiedQa" cdkDrag>
-        <div class="accordion_display">
-          <div class="accordion_size">
-            <mat-accordion>
-              <mat-expansion-panel hideToggle="false">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <span>{{ item.name }}</span>
-                    <span class="spacer"></span>
-                    <button
-                      class="btnResolved"
-                      *ngIf="item.userStoryStatus == 'resolved'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnReadyForPo"
-                      *ngIf="item.userStoryStatus == 'ready for PO'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnVerifiedQA"
-                      *ngIf="item.userStoryStatus == 'verified QA'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnActive"
-                      *ngIf="item.userStoryStatus == 'active'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-panel-description>
-                  {{ item.description }}
-                </mat-panel-description>
-                <mat-panel-description>
-                  <img
-                    class="card-img-top image_center"
-                    src="{{ item.imageUrl }}"
-                  />
-                </mat-panel-description>
-                <mat-action-row>
-                  <button
-                    class="btnSelectActive"
-                    mat-button
-                    (click)="updateStory(item, 'Active')"
-                  >
-                    Active
-                  </button>
-                  <button
-                    class="btnSelectVerifiedQA"
-                    mat-button
-                    (click)="updateStory(item, 'verified QA')"
-                  >
-                    Verified QA
-                  </button>
-                  <button
-                    class="btnSelectReadyForPo"
-                    mat-button
-                    (click)="updateStory(item, 'ready for PO')"
-                  >
-                    Ready for PO
-                  </button>
-                  <button
-                    class="btnSelectResolved"
-                    mat-button
-                    (click)="updateStory(item, 'resolved')"
-                  >
-                    Resolved
-                  </button>
-                  <span class="spacer"></span>
-                  <mat-icon color="primary" (click)="deleteStory(item)"
-                    >delete</mat-icon
-                  >
-                </mat-action-row>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <div class="example-container col">
     <h2>Ready for PO</h2>
 
-    <div
-      cdkDropList
-      #readyforpoList="cdkDropList"
-      [cdkDropListData]="storyReadyForPo"
-      [cdkDropListConnectedTo]="[activeList, verifiedqaList, resolvedList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of storyReadyForPo" cdkDrag>
-        <div class="accordion_display">
-          <div class="accordion_size">
-            <mat-accordion>
-              <mat-expansion-panel hideToggle="false">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <span>{{ item.name }}</span>
-                    <span class="spacer"></span>
-                    <button
-                      class="btnResolved"
-                      *ngIf="item.userStoryStatus == 'resolved'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnReadyForPo"
-                      *ngIf="item.userStoryStatus == 'ready for PO'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnVerifiedQA"
-                      *ngIf="item.userStoryStatus == 'verified QA'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnActive"
-                      *ngIf="item.userStoryStatus == 'active'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-panel-description>
-                  {{ item.description }}
-                </mat-panel-description>
-                <mat-panel-description>
-                  <img
-                    class="card-img-top image_center"
-                    src="{{ item.imageUrl }}"
-                  />
-                </mat-panel-description>
-                <mat-action-row>
-                  <button
-                    class="btnSelectActive"
-                    mat-button
-                    (click)="updateStory(item, 'Active')"
-                  >
-                    Active
-                  </button>
-                  <button
-                    class="btnSelectVerifiedQA"
-                    mat-button
-                    (click)="updateStory(item, 'verified QA')"
-                  >
-                    Verified QA
-                  </button>
-                  <button
-                    class="btnSelectReadyForPo"
-                    mat-button
-                    (click)="updateStory(item, 'ready for PO')"
-                  >
-                    Ready for PO
-                  </button>
-                  <button
-                    class="btnSelectResolved"
-                    mat-button
-                    (click)="updateStory(item, 'resolved')"
-                  >
-                    Resolved
-                  </button>
-                  <span class="spacer"></span>
-                  <mat-icon color="primary" (click)="deleteStory(item)"
-                    >delete</mat-icon
-                  >
-                </mat-action-row>
-              </mat-expansion-panel>
-            </mat-accordion>
+    <div>
+    <div class="form" *ngFor="let data of storyReadyForPo;index as i">
+      <mat-card class="card">
+        <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
+        <mat-card-title >{{ data.name }}</mat-card-title>
+        <mat-card-content>
+          <div class="container" [ngClass]="{'display-none':!data.acordion}">
+            <mat-card-actions>
+              <mat-icon color="primary" (click)="deleteStory(data) "
+                  >delete</mat-icon
+                >
+            </mat-card-actions>
+            <mat-form-field appearance="fill">
+              <mat-label>User</mat-label>
+              <select matNativeControl required disabled>
+                <option
+                  *ngFor="let item of userData"
+                  value="{{ item.email }}"
+                >
+                  <b>
+                    {{ item.email }}
+                  </b>
+                </option>
+              </select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Status</mat-label>
+              <select
+                matNativeControl
+                required
+                [(ngModel)]="userStoryStatus[i]"
+              >
+                <option value="active">Active</option>
+                <option value="resolved">Resolved</option>
+                <option value="verified QA">Verified QA</option>
+                <option value="ready for PO">Ready for PO</option>
+                <option value="closed">Closed</option>
+              </select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Description"
+                required
+                disabled
+              />{{ data.description }}
+            </mat-form-field>
+            
+            <mat-form-field>
+              <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]">{{
+                data.bugs
+              }}</textarea>
+            </mat-form-field>
+            <mat-card-actions>
+              <button
+                (click)="
+                  updateStory(data, i, 'ready for PO')
+                "
+                class="button"
+                mat-raised-button
+              >
+                Update
+              </button>
+            </mat-card-actions>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
     </div>
   </div>
 
   <div class="example-container col">
     <h2>Resolved</h2>
 
-    <div
-      cdkDropList
-      #resolvedList="cdkDropList"
-      [cdkDropListData]="storyResolved"
-      [cdkDropListConnectedTo]="[activeList, verifiedqaList, readyforpoList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of storyReadyForPo" cdkDrag>
-        <div class="accordion_display">
-          <div class="accordion_size">
-            <mat-accordion>
-              <mat-expansion-panel hideToggle="false">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <span>{{ item.name }}</span>
-                    <span class="spacer"></span>
-                    <button
-                      class="btnResolved"
-                      *ngIf="item.userStoryStatus == 'resolved'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnReadyForPo"
-                      *ngIf="item.userStoryStatus == 'ready for PO'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnVerifiedQA"
-                      *ngIf="item.userStoryStatus == 'verified QA'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                    <button
-                      class="btnActive"
-                      *ngIf="item.userStoryStatus == 'active'"
-                      mat-raised-button
-                    >
-                      {{ item.userStoryStatus }}
-                    </button>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-panel-description>
-                  {{ item.description }}
-                </mat-panel-description>
-                <mat-panel-description>
-                  <img
-                    class="card-img-top image_center"
-                    src="{{ item.imageUrl }}"
-                  />
-                </mat-panel-description>
-                <mat-action-row>
-                  <button
-                    class="btnSelectActive"
-                    mat-button
-                    (click)="updateStory(item, 'Active')"
-                  >
-                    Active
-                  </button>
-                  <button
-                    class="btnSelectVerifiedQA"
-                    mat-button
-                    (click)="updateStory(item, 'verified QA')"
-                  >
-                    Verified QA
-                  </button>
-                  <button
-                    class="btnSelectReadyForPo"
-                    mat-button
-                    (click)="updateStory(item, 'ready for PO')"
-                  >
-                    Ready for PO
-                  </button>
-                  <button
-                    class="btnSelectResolved"
-                    mat-button
-                    (click)="updateStory(item, 'resolved')"
-                  >
-                    Resolved
-                  </button>
-                  <span class="spacer"></span>
-                  <mat-icon color="primary" (click)="deleteStory(item)"
-                    >delete</mat-icon
-                  >
-                </mat-action-row>
-              </mat-expansion-panel>
-            </mat-accordion>
+    <div>
+    <div class="form" *ngFor="let data of storyResolved;index as i">
+      <mat-card class="card">
+        <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
+        <mat-card-title >{{ data.name }}</mat-card-title>
+        <mat-card-content>
+          <div class="container" [ngClass]="{'display-none':!data.acordion}">
+            <mat-card-actions>
+              <mat-icon color="primary" (click)="deleteStory(data) "
+                  >delete</mat-icon
+                >
+            </mat-card-actions>
+            <mat-form-field appearance="fill">
+              <mat-label>User</mat-label>
+              <select matNativeControl required disabled>
+                <option
+                  *ngFor="let item of userData"
+                  value="{{ item.email }}"
+                >
+                  <b>
+                    {{ item.email }}
+                  </b>
+                </option>
+              </select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Status</mat-label>
+              <select
+                matNativeControl
+                required
+                [(ngModel)]="userStoryStatus[i]"
+              >
+                <option value="active">Active</option>
+                <option value="resolved">Resolved</option>
+                <option value="verified QA">Verified QA</option>
+                <option value="ready for PO">Ready for PO</option>
+                <option value="closed">Closed</option>
+              </select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Description"
+                required
+                disabled
+              />{{ data.description }}
+            </mat-form-field>
+            
+            <mat-form-field>
+              <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]" ></textarea>
+            </mat-form-field>
+            <mat-card-actions>
+              <button
+                (click)="
+                updateStory(data, i, 'resolved')
+                "
+                class="button"
+                mat-raised-button
+              >
+                Update
+              </button>
+            </mat-card-actions>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
     </div>
   </div>
+</div>
 </div>

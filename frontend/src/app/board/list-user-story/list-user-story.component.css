@@ -1,12 +1,17 @@
+.row{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
 .container {
   display: flex;
-  justify-content: space-between;
-  margin-left: 0!important;
-  height: 100vh;
-}
-.container2 {
-  display: flex;
   flex-direction: column;
+}
+
+.display-none { 
+  display: none;
+  height: 0px;
 }
 .accordion_display {
   display: flex;
@@ -26,6 +31,7 @@
 }
 .form {
   height: 100%;
+  min-width: 275px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,18 +90,8 @@
   max-width: 450px;
 }
 
-.taskContainer {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
-  display: inline-flex;
-  flex-direction: row;
-  vertical-align: top;
-}
-
 .example-container {
-  width: 500px;
-  max-width: 100%;
+  width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;
   vertical-align: top;
@@ -141,11 +137,25 @@
 .example-box:last-child {
   border: none;
 }
+.buttonDelete{
+  justify-content: center;
+  background-color: #ff0000;
+  color: #ffffff;
+  width: 100%;
+}
 .button {
   width: 100%;
   background-color: #3a1155;
   color: white;
 }
 mat-card-title {
+  float: right;
+  text-align: center;
+  width: 80%;
+}
+mat-icon {
+  text-align: end;
+}
+h2{
   text-align: center;
 }

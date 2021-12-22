@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardService } from '../../services/board.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -23,7 +23,9 @@ export class ListUserStoryComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-  userStoryStatus: string = '';
+  userStoryStatus: any;
+  userStoryBugs: any;
+  updateStorySend: any;
   registerData: any;
   userData: any;
   storyData: any;
@@ -35,6 +37,7 @@ export class ListUserStoryComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   durationInSeconds: number = 2;
+  accordion:boolean = false;
 
   constructor(
     private _boardService: BoardService,
@@ -48,10 +51,13 @@ export class ListUserStoryComponent implements OnInit {
     this.storyReadyForPo = [];
     this.userData = [];
     this.registerData = {};
+    this.updateStorySend = {};
+    this.userStoryStatus = {};
+    this.userStoryBugs = {};
   }
 
   ngOnInit(): void {
-    this.listUser();
+    this.listUser()
     this._boardService.listUserStory().subscribe({
       next: (v) => {
         this.storyData = v.userStoryList;
@@ -74,9 +80,9 @@ export class ListUserStoryComponent implements OnInit {
         this.message = e.error.message;
         this.openSnackBarError();
       },
-      complete: () => console.log(this.storyActive),
     });
   }
+
 
   listUser() {
     this._userService.listUser('').subscribe({
@@ -89,68 +95,32 @@ export class ListUserStoryComponent implements OnInit {
       error: (e) => {
         this.message = e.error.message;
       },
-      complete: () => console.info('complete'),
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      this.dropUpdate();
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      this.dropUpdate();
+  updateStory(item: any, i: number, currentStatus: string) {
+    console.log(this.userStoryStatus[i]);
+    item.bugs = this.userStoryBugs[i];
+    item.userStoryStatus = this.userStoryStatus[i];
+    if(this.userStoryStatus[i] == undefined )
+    {
+      item.userStoryStatus = currentStatus;
     }
-  }
-  dropUpdate() {
-    this.storyActive.forEach((tk: any) => {
-      if (tk.userStoryStatus !== 'active') {
-        this.updateStory(tk, 'active');
-      }
-    });
-    this.storyVerifiedQa.forEach((tk: any) => {
-      if (tk.userStoryStatus !== 'verified QA') {
-        this.updateStory(tk, 'verified QA');
-      }
-    });
-    this.storyReadyForPo.forEach((tk: any) => {
-      if (tk.userStoryStatus !== 'ready for PO') {
-        this.updateStory(tk, 'ready for PO');
-      }
-    });
-    this.storyResolved.forEach((tk: any) => {
-      if (tk.userStoryStatus !== 'resolved') {
-        this.updateStory(tk, 'resolved');
-      }
-    });
-  }
-
-  updateStory(story: any, status: any) {
-    status = this.registerData.userStoryStatus.value;
-    let tempStatus = story.userStoryStatus;
-    story.userStoryStatus = status;
-    this._boardService.updateStory(story).subscribe({
+    if(this.userStoryBugs == '') item.bugs = 'nada';
+    delete this.userStoryStatus[i];
+    
+    this._boardService.updateStory(item).subscribe({
       next: (v) => {
-        story.status = status;
         this.resetList();
       },
       error: (e) => {
-        story.status = tempStatus;
         this.message = e.error.message;
         this.openSnackBarError();
       },
-      complete: () => console.info('complete'),
+      complete: () => console.info('complete') ,
     });
   }
+
 
   resetList() {
     this.storyActive = [];
@@ -159,25 +129,19 @@ export class ListUserStoryComponent implements OnInit {
     this.storyResolved = [];
     this._boardService.listUserStory().subscribe({
       next: (v) => {
-        this.storyData = v.storyList;
+        this.storyData = v.userStoryList;
         this.storyData.forEach((tk: any) => {
-          if (tk.userStoryStatus !== 'active') {
-            this.updateStory(tk, 'active');
+          if (tk.userStoryStatus === 'active') {
+            this.storyActive.push(tk);
           }
-        });
-        this.storyVerifiedQa.forEach((tk: any) => {
-          if (tk.userStoryStatus !== 'verified QA') {
-            this.updateStory(tk, 'verified QA');
+          if (tk.userStoryStatus === 'verified QA') {
+            this.storyVerifiedQa.push(tk);
           }
-        });
-        this.storyReadyForPo.forEach((tk: any) => {
-          if (tk.userStoryStatus !== 'ready for PO') {
-            this.updateStory(tk, 'ready for PO');
+          if (tk.userStoryStatus === 'ready for PO') {
+            this.storyReadyForPo.push(tk);
           }
-        });
-        this.storyResolved.forEach((tk: any) => {
-          if (tk.userStoryStatus !== 'resolved') {
-            this.updateStory(tk, 'resolved');
+          if (tk.userStoryStatus === 'resolved') {
+            this.storyResolved.push(tk);
           }
         });
       },
@@ -185,7 +149,6 @@ export class ListUserStoryComponent implements OnInit {
         this.message = e.error.message;
         this.openSnackBarError();
       },
-      complete: () => console.info('complete'),
     });
   }
   deleteStory(story: any) {
