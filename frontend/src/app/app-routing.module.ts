@@ -17,11 +17,12 @@ import { ForgottenPasswordConfirmComponent } from './recoverPassword/forgotten-p
 import { ForgottenPasswordComponent } from './recoverPassword/forgotten-password/forgotten-password.component';
 import { UserHistoryComponent } from './board/user-history/user-history.component';
 import { ListUserStoryComponent } from './board/list-user-story/list-user-story.component';
+import { LandingComponent } from './home/landing/landing.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LandingComponent,
     pathMatch: 'full',
   },
   {

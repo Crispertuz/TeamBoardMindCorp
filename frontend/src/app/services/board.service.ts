@@ -38,6 +38,9 @@ export class BoardService {
   listUserStory() {
     return this._http.get<any>(this.env + 'board/listUserStory');
   }
+  listUserStoryAdmin(email: any) {
+    return this._http.get<any>(this.env + 'board/listUserStoryAdmin/' + email);
+  }
   updateStory(board: any) {
     return this._http.put<any>(this.env + 'board/updateUserStory', board);
   }

@@ -23,6 +23,7 @@ export class ListUserStoryComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+  opcionSeleccionada:string = '';
   userStoryStatus: any;
   userStoryBugs: any;
   updateStorySend: any;
@@ -40,6 +41,7 @@ export class ListUserStoryComponent implements OnInit {
   accordion:boolean = false;
 
   constructor(
+    public _userServiceIsAdmin: UserService,
     private _boardService: BoardService,
     private _userService: UserService,
     private _snackBar: MatSnackBar
@@ -98,17 +100,50 @@ export class ListUserStoryComponent implements OnInit {
     });
   }
 
-  updateStory(item: any, i: number, currentStatus: string) {
-    console.log(this.userStoryStatus[i]);
-    item.bugs = this.userStoryBugs[i];
-    item.userStoryStatus = this.userStoryStatus[i];
-    if(this.userStoryStatus[i] == undefined )
-    {
-      item.userStoryStatus = currentStatus;
+  listUserStoryAdmin() {
+    if(this.opcionSeleccionada === '') {
+      this.message = "Selecciona un usuario"
+      this.openSnackBarError();
     }
-    if(this.userStoryBugs == '') item.bugs = 'nada';
-    delete this.userStoryStatus[i];
-    
+    else{
+      
+    this._boardService.listUserStoryAdmin(this.opcionSeleccionada).subscribe({
+      next: (v) => {
+        this.resetListAdmin();
+        this.storyData = v.userStoryList;
+        this.storyData.forEach((tk: any) => {
+          if (tk.userStoryStatus === 'active') {
+            this.storyActive.push(tk);
+          }
+          if (tk.userStoryStatus === 'verified QA') {
+            this.storyVerifiedQa.push(tk);
+          }
+          if (tk.userStoryStatus === 'ready for PO') {
+            this.storyReadyForPo.push(tk);
+          }
+          if (tk.userStoryStatus === 'resolved') {
+            this.storyResolved.push(tk);
+          }
+        });
+      },
+      error: (e) => {
+        this.message = e.error.message;
+        this.openSnackBarError();
+      },
+    });
+    }
+  }
+
+  updateStory(item: any, i: number) {
+    if(this.userStoryBugs[i] != undefined)
+    {
+      let nuevoBug = this.userStoryBugs[i];
+      item.bugs.push(nuevoBug)
+    }
+    if(this.userStoryStatus[i] != undefined )
+    {
+      item.userStoryStatus = this.userStoryStatus[i];
+    }
     this._boardService.updateStory(item).subscribe({
       next: (v) => {
         this.resetList();
@@ -117,10 +152,19 @@ export class ListUserStoryComponent implements OnInit {
         this.message = e.error.message;
         this.openSnackBarError();
       },
-      complete: () => console.info('complete') ,
     });
   }
 
+  bugArray(bug:any){
+    return  bug.bugs;
+  }
+
+  resetListAdmin(){
+    this.storyActive = [];
+    this.storyVerifiedQa = [];
+    this.storyReadyForPo = [];
+    this.storyResolved = [];
+  }
 
   resetList() {
     this.storyActive = [];
@@ -159,6 +203,7 @@ export class ListUserStoryComponent implements OnInit {
           this.storyData.splice(index, 1);
           this.message = v.message;
           this.openSnackBarSuccesfull();
+          this.resetList();
         }
       },
       error: (e) => {

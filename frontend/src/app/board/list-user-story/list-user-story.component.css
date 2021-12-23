@@ -3,6 +3,10 @@
   width: 100%;
   justify-content: space-around;
 }
+.selectUser{
+  width: 100%;
+  text-align: center;
+}
 
 .container {
   display: flex;
@@ -147,6 +151,9 @@
   width: 100%;
   background-color: #3a1155;
   color: white;
+}
+.btnList{
+  margin-top: 10px;
 }
 mat-card-title {
   float: right;

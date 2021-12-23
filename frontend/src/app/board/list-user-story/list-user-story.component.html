@@ -1,19 +1,45 @@
-<div >
+<div>
   <div class="row">
+    <div
+      class="selectUser"
+      *ngIf="_userServiceIsAdmin.loggedIn() && _userServiceIsAdmin.isAdmin()"
+    >
+      <mat-form-field appearance="fill">
+        <mat-label>Select user</mat-label>
+        <select matNativeControl required [(ngModel)]="opcionSeleccionada">
+          <option *ngFor="let item of userData" value="{{ item.email }}">
+            {{ item.email }}
+          </option>
+        </select>
+        <button
+          (click)="listUserStoryAdmin()"
+          class="button btnList"
+          mat-raised-button
+        >
+          List
+        </button>
+      </mat-form-field>
+    </div>
+
     <div class="example-container col">
       <h2>Active</h2>
 
       <div>
         <div class="form" *ngFor="let data of storyActive; index as i">
           <mat-card class="card">
-            <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
-            <mat-card-title >{{ data.name }}</mat-card-title>
+            <mat-icon (click)="data.acordion = !data.acordion"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-card-title>{{ data.name }}</mat-card-title>
             <mat-card-content>
-              <div class="container" [ngClass]="{'display-none':!data.acordion}">
-                <mat-card-actions>
-                  <mat-icon color="primary" (click)="deleteStory(data) "
-                      >delete</mat-icon
-                    >
+              <div
+                class="container"
+                [ngClass]="{ 'display-none': !data.acordion }"
+              >
+                <mat-card-actions *ngIf="_userServiceIsAdmin.isAdmin()">
+                  <mat-icon color="primary" (click)="deleteStory(data)"
+                    >delete</mat-icon
+                  >
                 </mat-card-actions>
                 <mat-form-field appearance="fill">
                   <mat-label>Status</mat-label>
@@ -23,10 +49,9 @@
                     [(ngModel)]="userStoryStatus[i]"
                   >
                     <option value="active">Active</option>
-                    <option value="resolved">Resolved</option>
                     <option value="verified QA">Verified QA</option>
                     <option value="ready for PO">Ready for PO</option>
-                    <option value="closed">Closed</option>
+                    <option value="resolved">Resolved</option>
                   </select>
                 </mat-form-field>
                 <mat-form-field>
@@ -37,7 +62,6 @@
                     disabled
                   />{{ data.description }}
                 </mat-form-field>
-
                 <mat-form-field>
                   <input
                     matInput
@@ -47,16 +71,27 @@
                   />{{ data.userEmail }}
                 </mat-form-field>
 
+                <mat-label>BUGS</mat-label>
+                <mat-label>
+                  <ul *ngFor="let bug of bugArray(data); index as i">
+                    <li>
+                      {{ data.bugs[i] }}
+                    </li>
+                  </ul>
+                </mat-label>
+
                 <mat-form-field>
-                  <input matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]"/>{{
-                    data.bugs
-                  }}
+                  <input
+                    matInput
+                    placeholder="Register Bugs"
+                    required
+                    [(ngModel)]="userStoryBugs[i]"
+                  />
                 </mat-form-field>
+
                 <mat-card-actions>
                   <button
-                    (click)="
-                      updateStory(data, i, 'active')
-                    "
+                    (click)="updateStory(data, i)"
                     class="button"
                     mat-raised-button
                   >
@@ -69,22 +104,26 @@
         </div>
       </div>
     </div>
-    
-  
-  <div class="example-container col">
-    <h2>Verified QA</h2>
 
-    <div>
-      <div class="form" *ngFor="let data of storyVerifiedQa;index as i">
+    <div class="example-container col">
+      <h2>Verified QA</h2>
+
+      <div>
+        <div class="form" *ngFor="let data of storyVerifiedQa; index as i">
           <mat-card class="card">
-            <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
-            <mat-card-title >{{ data.name }}</mat-card-title>
+            <mat-icon (click)="data.acordion = !data.acordion"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-card-title>{{ data.name }}</mat-card-title>
             <mat-card-content>
-              <div class="container" [ngClass]="{'display-none':!data.acordion}">
-                <mat-card-actions>
-                  <mat-icon color="primary" (click)="deleteStory(data) "
-                      >delete</mat-icon
-                    >
+              <div
+                class="container"
+                [ngClass]="{ 'display-none': !data.acordion }"
+              >
+                <mat-card-actions *ngIf="_userServiceIsAdmin.isAdmin()">
+                  <mat-icon color="primary" (click)="deleteStory(data)"
+                    >delete</mat-icon
+                  >
                 </mat-card-actions>
                 <mat-form-field appearance="fill">
                   <mat-label>User</mat-label>
@@ -122,17 +161,26 @@
                     disabled
                   />{{ data.description }}
                 </mat-form-field>
-                
+                <mat-label>BUGS</mat-label>
+                <mat-label>
+                  <ul *ngFor="let bug of bugArray(data); index as i">
+                    <li>
+                      {{ data.bugs[i] }}
+                    </li>
+                  </ul>
+                </mat-label>
+
                 <mat-form-field>
-                  <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]">{{
-                    data.bugs
-                  }}</textarea>
+                  <input
+                    matInput
+                    placeholder="Register Bugs"
+                    required
+                    [(ngModel)]="userStoryBugs[i]"
+                  />
                 </mat-form-field>
                 <mat-card-actions>
                   <button
-                    (click)="
-                      updateStory(data, i, 'verified QA')
-                    "
+                    (click)="updateStory(data, i)"
                     class="button"
                     mat-raised-button
                   >
@@ -143,155 +191,185 @@
             </mat-card-content>
           </mat-card>
         </div>
+      </div>
+    </div>
+
+    <div class="example-container col">
+      <h2>Ready for PO</h2>
+
+      <div>
+        <div class="form" *ngFor="let data of storyReadyForPo; index as i">
+          <mat-card class="card">
+            <mat-icon (click)="data.acordion = !data.acordion"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-card-title>{{ data.name }}</mat-card-title>
+            <mat-card-content>
+              <div
+                class="container"
+                [ngClass]="{ 'display-none': !data.acordion }"
+              >
+                <mat-card-actions *ngIf="_userServiceIsAdmin.isAdmin()">
+                  <mat-icon color="primary" (click)="deleteStory(data)"
+                    >delete</mat-icon
+                  >
+                </mat-card-actions>
+                <mat-form-field appearance="fill">
+                  <mat-label>User</mat-label>
+                  <select matNativeControl required disabled>
+                    <option
+                      *ngFor="let item of userData"
+                      value="{{ item.email }}"
+                    >
+                      <b>
+                        {{ item.email }}
+                      </b>
+                    </option>
+                  </select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Status</mat-label>
+                  <select
+                    matNativeControl
+                    required
+                    [(ngModel)]="userStoryStatus[i]"
+                  >
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="verified QA">Verified QA</option>
+                    <option value="ready for PO">Ready for PO</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Description"
+                    required
+                    disabled
+                  />{{ data.description }}
+                </mat-form-field>
+                <mat-label>BUGS</mat-label>
+                <mat-label>
+                  <ul *ngFor="let bug of bugArray(data); index as i">
+                    <li>
+                      {{ data.bugs[i] }}
+                    </li>
+                  </ul>
+                </mat-label>
+
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Register Bugs"
+                    required
+                    [(ngModel)]="userStoryBugs[i]"
+                  />
+                </mat-form-field>
+                <mat-card-actions>
+                  <button
+                    (click)="updateStory(data, i)"
+                    class="button"
+                    mat-raised-button
+                  >
+                    Update
+                  </button>
+                </mat-card-actions>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container col">
+      <h2>Resolved</h2>
+
+      <div>
+        <div class="form" *ngFor="let data of storyResolved; index as i">
+          <mat-card class="card">
+            <mat-icon (click)="data.acordion = !data.acordion"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-card-title>{{ data.name }}</mat-card-title>
+            <mat-card-content>
+              <div
+                class="container"
+                [ngClass]="{ 'display-none': !data.acordion }"
+              >
+                <mat-card-actions *ngIf="_userServiceIsAdmin.isAdmin()">
+                  <mat-icon color="primary" (click)="deleteStory(data)"
+                    >delete</mat-icon
+                  >
+                </mat-card-actions>
+                <mat-form-field appearance="fill">
+                  <mat-label>User</mat-label>
+                  <select matNativeControl required disabled>
+                    <option
+                      *ngFor="let item of userData"
+                      value="{{ item.email }}"
+                    >
+                      <b>
+                        {{ item.email }}
+                      </b>
+                    </option>
+                  </select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Status</mat-label>
+                  <select
+                    matNativeControl
+                    required
+                    [(ngModel)]="userStoryStatus[i]"
+                  >
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="verified QA">Verified QA</option>
+                    <option value="ready for PO">Ready for PO</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Description"
+                    required
+                    disabled
+                  />{{ data.description }}
+                </mat-form-field>
+                <mat-label>BUGS</mat-label>
+                <mat-label>
+                  <ul *ngFor="let bug of bugArray(data); index as i">
+                    <li>
+                      {{ data.bugs[i] }}
+                    </li>
+                  </ul>
+                </mat-label>
+
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="Register Bugs"
+                    required
+                    [(ngModel)]="userStoryBugs[i]"
+                  />
+                </mat-form-field>
+                <mat-card-actions>
+                  <button
+                    (click)="updateStory(data, i)"
+                    class="button"
+                    mat-raised-button
+                  >
+                    Update
+                  </button>
+                </mat-card-actions>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="example-container col">
-    <h2>Ready for PO</h2>
-
-    <div>
-    <div class="form" *ngFor="let data of storyReadyForPo;index as i">
-      <mat-card class="card">
-        <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
-        <mat-card-title >{{ data.name }}</mat-card-title>
-        <mat-card-content>
-          <div class="container" [ngClass]="{'display-none':!data.acordion}">
-            <mat-card-actions>
-              <mat-icon color="primary" (click)="deleteStory(data) "
-                  >delete</mat-icon
-                >
-            </mat-card-actions>
-            <mat-form-field appearance="fill">
-              <mat-label>User</mat-label>
-              <select matNativeControl required disabled>
-                <option
-                  *ngFor="let item of userData"
-                  value="{{ item.email }}"
-                >
-                  <b>
-                    {{ item.email }}
-                  </b>
-                </option>
-              </select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Status</mat-label>
-              <select
-                matNativeControl
-                required
-                [(ngModel)]="userStoryStatus[i]"
-              >
-                <option value="active">Active</option>
-                <option value="resolved">Resolved</option>
-                <option value="verified QA">Verified QA</option>
-                <option value="ready for PO">Ready for PO</option>
-                <option value="closed">Closed</option>
-              </select>
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Description"
-                required
-                disabled
-              />{{ data.description }}
-            </mat-form-field>
-            
-            <mat-form-field>
-              <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]">{{
-                data.bugs
-              }}</textarea>
-            </mat-form-field>
-            <mat-card-actions>
-              <button
-                (click)="
-                  updateStory(data, i, 'ready for PO')
-                "
-                class="button"
-                mat-raised-button
-              >
-                Update
-              </button>
-            </mat-card-actions>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    </div>
-  </div>
-
-  <div class="example-container col">
-    <h2>Resolved</h2>
-
-    <div>
-    <div class="form" *ngFor="let data of storyResolved;index as i">
-      <mat-card class="card">
-        <mat-icon (click)="data.acordion=!data.acordion">keyboard_arrow_down</mat-icon>
-        <mat-card-title >{{ data.name }}</mat-card-title>
-        <mat-card-content>
-          <div class="container" [ngClass]="{'display-none':!data.acordion}">
-            <mat-card-actions>
-              <mat-icon color="primary" (click)="deleteStory(data) "
-                  >delete</mat-icon
-                >
-            </mat-card-actions>
-            <mat-form-field appearance="fill">
-              <mat-label>User</mat-label>
-              <select matNativeControl required disabled>
-                <option
-                  *ngFor="let item of userData"
-                  value="{{ item.email }}"
-                >
-                  <b>
-                    {{ item.email }}
-                  </b>
-                </option>
-              </select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Status</mat-label>
-              <select
-                matNativeControl
-                required
-                [(ngModel)]="userStoryStatus[i]"
-              >
-                <option value="active">Active</option>
-                <option value="resolved">Resolved</option>
-                <option value="verified QA">Verified QA</option>
-                <option value="ready for PO">Ready for PO</option>
-                <option value="closed">Closed</option>
-              </select>
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="Description"
-                required
-                disabled
-              />{{ data.description }}
-            </mat-form-field>
-            
-            <mat-form-field>
-              <textarea matInput placeholder="Register Bugs" required [(ngModel)]="userStoryBugs[i]" ></textarea>
-            </mat-form-field>
-            <mat-card-actions>
-              <button
-                (click)="
-                updateStory(data, i, 'resolved')
-                "
-                class="button"
-                mat-raised-button
-              >
-                Update
-              </button>
-            </mat-card-actions>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    </div>
-  </div>
-</div>
 </div>

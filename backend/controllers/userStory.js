@@ -42,14 +42,14 @@ const listUserStoryAdmin = async (req, res) => {
   const isAdmin = await role.findOne({ _id: req.user.roleId });
   // console.log(`RoleId: ${isAdmin},\n UserRole ${req.user.roleId}`);
   if (isAdmin.name === "admin") {
-    if (!req.body.userId)
+    if (!req.params["email"] || !req.params["email"] === undefined)
       return res.status(400).send({ message: "Incomplete data" });
 
-    const userExists = await user.findById({ _id: req.body.userId });
+    const userExists = await user.findOne({ email: req.params["email"] });
     if (!userExists)
       return res.status(400).send({ message: "User not exists" });
 
-    const userStoryList = await userStory.find({ userId: req.body.userId });
+    const userStoryList = await userStory.find({ userEmail: req.params["email"] });
     return userStoryList.length === 0
       ? res.status(400).send({ message: "You have no assigned user story" })
       : res.status(200).send({ userStoryList });

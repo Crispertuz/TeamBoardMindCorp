@@ -15,7 +15,7 @@ const userStorySchema = new mongoose.Schema({
 
   details: String,
 
-  bugs: { type: String, default: " " },
+  bugs: { type: Array, default: [] },
 });
 
 const userStory = mongoose.model("userStories", userStorySchema);

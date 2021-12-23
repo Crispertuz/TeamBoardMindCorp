@@ -1,4 +1,5 @@
 import role from "../models/role.js";
+import user from "../models/user.js";
 
 const registerRole = async (req, res) => {
   if (!req.body.name || !req.body.description)
@@ -49,6 +50,18 @@ const updateRole = async (req, res) => {
 };
 
 const deleteRole = async (req, res) => {
+  const roleIsAdmin = await role.findById({ _id: req.params["_id"] });
+  if (roleIsAdmin.name == "admin")
+    return res.status(400).send({ message: "You can't delete admin role" });
+
+  const userWithRole = await user.find({ roleId: req.params["_id"] });
+  if (userWithRole.length > 0)
+    return res
+      .status(400)
+      .send({
+        message: `You can't delete this role. At least one user is already using ${roleIsAdmin.name} role.`,
+      });
+
   const roleDelete = await role.findByIdAndDelete({ _id: req.params["_id"] });
   return !roleDelete
     ? res.status(400).send({ message: "Role no found" })

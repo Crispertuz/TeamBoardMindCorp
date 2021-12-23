@@ -1,5 +1,7 @@
 import user from "../models/user.js";
 import role from "../models/role.js";
+import userStory from "../models/userStory.js";
+import board from "../models/board.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import moment from "moment";
@@ -170,6 +172,18 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
+  const userIsAdmin = await user.findById({ _id: req.params["_id"]});
+  const userIsAdminRole = await role.findById({_id: userIsAdmin.roleId});
+  if(userIsAdminRole.name == 'admin') return res.status(400).send({message: "You can't delete admin user."});
+  
+  
+
+  const userHaveUserStories = await user.findById({_id: req.params["_id"]});
+  const userHaveUserTask = await board.find({userId: req.params["_id"]});
+  const haveStories = await userStory.find({userEmail: userHaveUserStories.email});
+  if(haveStories.length > 0 || userHaveUserTask.length > 0) return res.status(400).send({ message: "You can't delete a user that have user Stories or tasks" });
+
+
   const userDelete = await user.findByIdAndDelete({ _id: req.params["_id"]});
   return !userDelete
     ? res.status(400).send({ message: "User no found" })

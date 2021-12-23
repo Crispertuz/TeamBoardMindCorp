@@ -69,7 +69,7 @@ export class UserHistoryComponent implements OnInit {
       console.log(this.registerData);
       this._boardService.saveUserStory(this.registerData).subscribe({
         next: (v) => {
-          // this._router.navigate(['/listUserStory']);
+          this._router.navigate(['/listUserStory']);
           this.message = 'Story created';
           this.openSnackBarSuccesfull();
         },
